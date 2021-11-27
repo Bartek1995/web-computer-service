@@ -14,10 +14,32 @@
     <title>Strona głowna</title>
 </head>
 <body>
-    <div class="center-nav">
-        <button class="btn login">Zaloguj</button>
-        <button class="btn contact">Kontakt</button>
-        <button class="btn about_us">O nas</button>
-    </div>
+    <!-- <div class="center-nav"> -->
+        <div class="square login">
+            <span>Zaloguj</span>
+            <form action="#">
+                <input type="email" placeholder="Wprowadź dane logowania" class ="login-input field-email" name="" id="">
+                <input type="password" placeholder="Wprowadź hasło" class ="login-input field-password"name="" id="">
+                <input type="button" class="btn-login"value="Zaloguj">
+            </form>
+            
+        </div>
+
+        <div class="square contact">
+            <span>Kontakt</span>
+            <p>Administrator: <span class="first_name">Bartłomiej Swatek</span></p>
+            <p>Email: <span class="email">bartek.swatek@wp.pl</span></p>
+        </div>
+
+        <div class="square about_us">
+            <p class="about_us-btn-text">O nas</p>
+            <p class="about_us-text">Jesteśmy firmą zajmującą się naprawą sprzętu komputerowego
+            W celu zgłoszenia zlecenia skontaktuj sie z administratorem.
+            Informacje na ten temat znajdziesz w zakładce KONTAKT</p>
+        </div>
+    <!-- </div> -->
+
+
+
 </body>
 </html>
