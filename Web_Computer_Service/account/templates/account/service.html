@@ -1,0 +1,56 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css">
+    <link rel="stylesheet" href="{% static 'ServicePageCSS/MainPageCSS.css' %}?{% now "U" %}">
+    <title>Serwis - Strona głowna</title>
+</head>
+<body>
+    <nav class="nav-top">
+        <h2>serviceMyPC</h2>
+        <a href="https://google.com" class="btn-logout">Wyloguj się</a>
+    </nav>
+    <nav class="nav-left">
+        <ul>
+            <li>
+                <div class="nav-btn btn-user">
+                    <p><i class="ti ti-user-circle"></i></p>
+                    <p class="nav-text">Zarządzanie użytkownikami</p>
+                    <ul class="nav-btn-list">
+                        <li><a href="#" class="">Utwórz konto pracownika</a></li>
+                        <li><a href="#" class="">Edytuj dane pracownika</a></li>
+                        <li><a href="#" class="">Wyświetl listę pracowników</a></li>
+                        <li><a href="#" class="">Wyświetl listę klientów</a></li>
+
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="nav-btn btn-order">
+                    <p><i class="ti ti-box"></i></p>
+                    <p class="nav-text">Zarządzanie zamówieniami</p>
+                    <ul class="nav-btn-list">
+                        <li><a href="#" class="">Utwórz zamówienie</a></li>
+                        <li><a href="#" class="">Lista zamówień</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    
+    <main>
+        
+    </main>
+</body>
+</html>
