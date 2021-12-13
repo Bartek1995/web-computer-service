@@ -1,0 +1,128 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    /* background-image: url("https://i.ibb.co/rMQ4bZx/network-g39a576dfe-1920.jpg"); */
+    /* background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; */
+}
+
+
+/* -----------------NAVIGATION----------------- */
+
+.nav-top  {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 17, 255, 0.863);
+}
+
+.nav-top  > h2 {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    letter-spacing: 2px;
+    font-size: 33px;
+    font-family: 'Barlow Condensed', sans-serif;
+    color: white;
+}
+
+.nav-top .btn-logout{
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    padding: 10px 20px;
+    transform: translateY(-50%);
+
+    color: white;
+    background-color: rgb(13, 14, 104);
+    border-radius: 5px;
+
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: bold;
+}
+.nav-left {
+    position: relative;
+    height: 100vh;
+    width: 65px;
+
+    background-color: rgb(36, 36, 36);
+}
+
+.nav-left .ti {
+    position: absolute;
+    left: 10px;
+    line-height: 60px;
+    
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-size: 35px;
+}
+
+/* -----------------NAV LEFT USER BUTTON----------------- */
+.nav-left .nav-text {
+    position: absolute;
+    left: 65px;
+    top: 17px;
+    
+    color: white;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.nav-btn {
+    position: relative;
+    top: 20px;
+    width: 90%;
+    height: 60px;
+    margin-left: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: black;
+    border-radius: 15px;
+
+    transition: 0.5s;
+}
+.nav-btn-list{
+    position: absolute;
+    top: 65px;
+    left: 20px;
+    color: white;
+    padding: 10px 0;
+
+    list-style-type: none;
+}
+
+.nav-btn-list a {
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-user a:hover {
+    color: yellowgreen;
+}
+
+.btn-user:hover {
+    width: 250px;
+    height: 180px;
+}
+
+/* -----------------NAV LEFT ORDER BUTTON----------------- */
+.btn-order a:hover {
+    color: yellowgreen;
+}
+
+.btn-order:hover {
+    width: 250px;
+    height: 150px;
+}
