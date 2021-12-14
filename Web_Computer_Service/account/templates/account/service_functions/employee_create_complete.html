@@ -1,0 +1,12 @@
+{% extends "service.html" %}
+
+{% block title %}Utworzono konto{% endblock %}
+
+{% block content %}
+<div class="account-create-complete">
+    <h2>Konto pomyślnie utworzone</h2>
+    <h3>Podsumowanie:</h3>
+    <p>Nazwa użytkownika: <span>{{user.username}}</span></p>
+    <p>Numer klienta: <span>{{user.employee_account_number}}</span></p>
+</div>
+{% endblock %}
