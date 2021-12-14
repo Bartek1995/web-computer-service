@@ -166,11 +166,17 @@ html, body{
 
 /* -----------------CREATING ACCOUNT FORM----------------- */
 
+
+.creator h3 {
+    margin-top: 40px;
+    margin-left: 115px;
+    top: 20px
+}
 .form-employee {
     position: absolute;
     display: flex;
     flex-direction: column;
-    top: 50px;
+    top: 100px;
     left: 200px;
 }
 
@@ -187,10 +193,6 @@ html, body{
     border: 2px solid black;
     border-radius: 15px;
 }
-
-/* .form-field:focus {
-    background-color: rgba(255, 102, 0, 0.493);
-} */
 
 .form-area {
     margin: 20px 0;
@@ -211,4 +213,11 @@ html, body{
 
 .btn-create-account:hover {
     background-color: rgb(90, 197, 19);
+}
+
+
+.form-errors {
+    position: absolute;
+    top: 100px;
+    left: 700px;
 }

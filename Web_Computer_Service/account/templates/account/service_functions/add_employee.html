@@ -8,7 +8,7 @@
 
 <div class="creator">
     <h3>Kreator zakładania konta dla pracownika</h3>
-    {{form.error}}
+
     <form method="POST" enctype="multipart/form-data" class="form-employee">
         {% csrf_token %}
         
@@ -28,7 +28,9 @@
     </form>
 </div>
 
-
+<div class="form-errors">
+    {{form.errors}}
+</div>
 
 {% endblock %}
 
