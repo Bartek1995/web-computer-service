@@ -9,5 +9,6 @@ urlpatterns = [
     path('', MainPage.as_view(), name="main"),
     path('service', ServiceMainPage.as_view(), name="service"),
     path('service/create_employee', views.create_employee, name='create_employee'),
+    path('service/create_customer', views.create_customer, name='create_customer'),
     path('service/edit_employee', views.edit_employee, name='edit_employee'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -26,4 +26,26 @@ class EmployeeCreationForm(UserCreationForm):
             'employee_account_number': "Numer pracownika",
         }
 
+class CustomerCreationForm(UserCreationForm):
+    password1 = forms.CharField(
+    label='Hasło',
+    strip=False,
+    widget=forms.PasswordInput(),
+    )
+
+    password2 = forms.CharField(
+    label='Potwierdź hasło',
+    strip=False,
+    widget=forms.PasswordInput(),
+    )
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'phone', 'customer_account_number','is_customer']
+
+        labels = {
+            'username': "Nazwa użytkownika",
+            'customer_account_number': "Numer klienta",
+        }
+
     
