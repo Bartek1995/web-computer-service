@@ -19,10 +19,16 @@
             {% render_field form.username class="form-field" placeholder="Nazwa użytkownika" type="char" %}
         </div>
         <div class="form-area">
-            {% render_field form.password1 class="form-field" placeholder="Hasło" type="password" %}
+            {% render_field form.phone class="form-field" placeholder="Numer telefonu" type="number" %}
         </div>
         <div class="form-area">
-            {% render_field form.password2 class="form-field" placeholder="Potwierdź hasło" type="password" %}
+            {% render_field form.email class="form-field" placeholder="Adres email" type="email" %}
+        </div>
+        <div class="form-area password">
+            {% render_field form.password1 class="form-field" placeholder="Hasło" type="password" value="randompassword" %}
+        </div>
+        <div class="form-area password">
+            {% render_field form.password2 class="form-field" placeholder="Potwierdź hasło" type="password" value="randompassword"%}
         </div>
         <button type="submit" class="btn-create-account">Utwórz konto</button>
     </form>

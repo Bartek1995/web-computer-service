@@ -19,7 +19,7 @@ class EmployeeCreationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'employee_account_number','is_employee']
+        fields = ['username', 'email', 'phone', 'employee_account_number','is_employee']
 
         labels = {
             'username': "Nazwa użytkownika",
