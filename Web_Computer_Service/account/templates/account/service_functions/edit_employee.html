@@ -1,0 +1,39 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Edytuj konto pracownika{% endblock %}
+
+{% block content %}
+
+<h3>Edycja kont pracowników</h3>
+<div class="edit-employee">
+    <div class="employee-object">
+        <table class="employee-table">
+            <tr class="table-title">
+                <th>Numer konta</th>
+                <th>Imie</th>
+                <th>Nazwisko</th>
+                <th>Email</th>
+            </tr>
+                {% for element in user%}
+                <tr class="table-data">
+                    <th>{{element.employee_account_number}}</th>
+                    <th>{{element.first_name}}</th>
+                    <th>{{element.last_name}}</th>
+                    <th>{{element.email}}</th>
+                    <th class="flex-btn-containter">
+                        <a href="#" class="flex-btn edit-btn"><i class="ti ti-edit"></i></a>
+                        <a href="#" class="flex-btn delete-btn"><i class="ti ti-x"></i></a>
+                    </th>
+                </tr>
+                {% endfor %}
+
+        </table>
+
+        
+    </div>
+</div>
+
+
+{% endblock %}

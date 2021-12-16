@@ -18,13 +18,17 @@ html, body{
     overflow: hidden;
 }
 
+::placeholder {
+    color: rgb(165, 165, 165);
+}
 /* -----------------NAVIGATION----------------- */
 
 .nav-top  {
     position: relative;
     width: 100%;
     height: 50px;
-    background-color: rgba(0, 17, 255, 0.863);
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px 0px 20px black;
 }
 
 .nav-top  > h2 {
@@ -43,11 +47,11 @@ html, body{
     position: absolute;
     top: 50%;
     right: 20px;
-    padding: 10px 20px;
+    padding: 7px 15px;
     transform: translateY(-50%);
 
-    color: white;
-    background-color: rgb(13, 14, 104);
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
 
     text-transform: uppercase;
@@ -138,7 +142,7 @@ html, body{
     left: 150px;
     width: 80%;
     height: 700px;
-    background-color: rgba(92, 129, 238, 0.082);
+    /* background-color: rgba(92, 129, 238, 0.082); */
     border-radius: 20px;
 }
 
@@ -168,37 +172,37 @@ html, body{
 
 
 .creator h3 {
-    margin-top: 40px;
-    margin-left: 115px;
-    top: 20px
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    transform: translate(-50%, -50%);
 }
 .form-employee {
     position: absolute;
+    top: 330px;
+    left: 50%;
     display: flex;
     flex-direction: column;
-    top: 100px;
-    left: 200px;
+    transform: translate(-50%, -50%);
 }
 
 .form-employee td {
     padding: 20px;
-
 }
 
 .form-field {
     padding: 20px;
+    margin: 20px 0;
     height: 50px;
     width: 250px;
-    background-color: #ffffe0;
+    background-color: #353333;
+    color: white;
     border: 2px solid black;
     border-radius: 15px;
 }
 
-.form-area {
-    margin: 20px 0;
-}
-
 .btn-create-account {
+    margin-top: 40px;
     padding: 10px 30px;
 
 
@@ -215,9 +219,76 @@ html, body{
     background-color: rgb(90, 197, 19);
 }
 
-
 .form-errors {
     position: absolute;
     top: 100px;
     left: 700px;
 }
+
+/* -----------------EDIT EMPLOYEE PAGE----------------- */
+
+.edit-employee {
+    height: 80%;
+    width: 800px;
+    margin: 100px auto;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    color: black;
+    overflow: auto;
+}
+
+.content h3 {
+    padding: 20px;
+    text-align: center;
+}
+.employee-object {
+    margin-top: 40px;
+}
+
+.flex-btn {
+    padding: 10px;
+
+    color: black;
+    text-decoration: none;
+    border-radius: 8px;
+
+    font-size: 17px;
+}
+
+.employee-object .edit-btn {
+    margin-right: 5px;
+    margin-left: 20px;
+    background-color: rgb(20, 94, 255);
+}
+.employee-object .delete-btn {
+    
+    background-color: red;
+}
+
+.employee-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.table-title th{
+    padding: 0px 40px 40px;
+    text-transform: uppercase;
+}
+
+
+.table-data th {
+    padding: 10px 0;
+    font-weight: 400;
+}
+
+.table-data {
+    border-bottom: 1px solid black;
+}
+
+.flex-btn-containter {
+    display: flex;
+    flex-direction: row;
+    margin-right: 20px;
+}
+
+
