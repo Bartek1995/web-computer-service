@@ -18,7 +18,7 @@
 </head>
 <body>
     <nav class="nav-top">
-        <h2>serviceMyPC</h2>
+        <h1>serviceMyPC<i class="ti ti-devices-pc"></i></h1>
         <a href="https://google.com" class="btn-logout">Wyloguj się</a>
     </nav>
     <nav class="nav-left">
@@ -28,8 +28,8 @@
                     <p><i class="ti ti-user-circle"></i></p>
                     <p class="nav-text">Zarządzanie użytkownikami</p>
                     <ul class="nav-btn-list">
-                        <li><a href="#" class="">Utwórz konto pracownika</a></li>
-                        <li><a href="#" class="">Edytuj dane pracownika</a></li>
+                        <li><a href="{% url 'Web_Computer_Service:create_employee' %}" class="">Utwórz konto pracownika</a></li>
+                        <li><a href="{% url 'Web_Computer_Service:edit_employee' %}" class="">Edytuj dane pracownika</a></li>
                         <li><a href="#" class="">Wyświetl listę pracowników</a></li>
                         <li><a href="#" class="">Wyświetl listę klientów</a></li>
 
@@ -50,7 +50,12 @@
     </nav>
     
     <main>
-        
+        <div class="content">
+            
+            {% block content %}
+            <p>Wybierz funkcje z panelu nawiagacyjnego</p>
+            {% endblock %}
+        </div>
     </main>
 </body>
 </html>

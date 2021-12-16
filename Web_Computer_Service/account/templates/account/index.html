@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,17 +15,17 @@
     <title>Strona głowna</title>
 </head>
 <body>
-    <!-- <div class="center-nav"> -->
+    {{form.errors}}
         <div class="square login">
             <span>Zaloguj</span>
-            <form action="#">
-                <input type="email" placeholder="Wprowadź dane logowania" class ="login-input field-email" name="" id="">
-                <input type="password" placeholder="Wprowadź hasło" class ="login-input field-password"name="" id="">
-                <input type="button" class="btn-login"value="Zaloguj">
+            <form action="." method="POST">
+                {% csrf_token %}
+                {% render_field form.username class="login-input field-email" placeholder='Dane do logowania' %}
+                {% render_field form.password class="login-input field-password" placeholder='Hasło' %}
+                <input type="submit" class="btn-login"value="Zaloguj">
             </form>
-            
         </div>
-
+        {}
         <div class="square contact">
             <span>Kontakt</span>
             <p>Administrator: <span class="first_name">Bartłomiej Swatek</span></p>
