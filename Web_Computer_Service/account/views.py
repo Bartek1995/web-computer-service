@@ -13,9 +13,11 @@ def main(request):
 class LoginPage(LoginView):
     template_name = "account/index.html"
 
-class ServiceMainPage(TemplateView):
-    template_name = 'service.html'
+# class ServiceMainPage(TemplateView):
+#     template_name = 'service.html'
 
+def service_main_page(request):
+    return render (request, 'service.html')
 
 def create_employee(request):
     if request.method == "POST":
@@ -43,12 +45,27 @@ def edit_employee_object(request, id):
     
     if form.is_valid():
         employee_temp = form.save(commit=False)
+        employee_temp.is_employee = 1
         employee_temp.set_password(employee_password)
         employee_temp.save()
         messages.success(request, 'Konto pomyślnie zaktualizowane')
         return redirect('Web_Computer_Service:service')
 
     return render(request, 'service_functions/edit_employee_object_instance.html', {'form': form})
+
+def delete_employee_ask(request, id):
+    employee = get_object_or_404(User, pk=id)
+    return render(request, 'service_functions/delete_employee_ask.html', {'user': employee})
+
+def delete_employee_confirmation(request, id):
+    employee = get_object_or_404(User, pk=id)
+    employee.delete()
+    messages.success(request, 'Konto zostało usunięte')
+    return redirect('Web_Computer_Service:service')
+    
+def delete_employee_cancel(request):
+    messages.info(request, 'Anulowano usuwanie konta')
+    return redirect('Web_Computer_Service:service')
 
 def create_customer(request):
     if request.method == "POST":

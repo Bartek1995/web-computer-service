@@ -156,13 +156,18 @@ html, body{
     transform: translate(-50%, -50%);
     height: 40px;
     width: 350px;
-    background-color: rgba(37, 201, 37, 0.788);
     border-radius: 25px;
 
     text-align: center;
     line-height: 40px;
 }
 
+.type-success {
+    background-color: rgba(37, 201, 37, 0.788);
+}
+.type-info {
+    background-color: goldenrod
+}
 /* -----------------CREATING ACCOUNT COMPLETE----------------- */
 
 
@@ -327,3 +332,26 @@ html, body{
 }
 
 
+/* -----------------DELETE EMPLOYEE PAGE----------------- */
+
+.delete_confirmation {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.delete-a-btn {
+    margin: 40px;
+    padding: 10px 30px;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+}
+
+.delete-accept {
+    background-color: green;
+}
+.delete-cancel {
+    background-color: red;
+}

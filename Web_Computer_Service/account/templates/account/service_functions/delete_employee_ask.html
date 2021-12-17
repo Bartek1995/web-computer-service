@@ -1,0 +1,20 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Potwierdzenie usunięcia konta{% endblock %}
+
+{% block content %}
+
+<div class="creator">
+    <h3>Czy na pewno chcesz usunąć konto o id = {{user.id}}</h3>
+
+    <div class="delete_confirmation">
+        <a href="{% url 'Web_Computer_Service:delete_employee_confirmation' user.id %}" class="delete-a-btn delete-accept">Potwierdź</a>
+    <a href="{% url 'Web_Computer_Service:delete_employee_cancel'%}" class="delete-a-btn delete-cancel">Odrzuć</a>
+    </div>
+    
+    
+</div>
+
+{% endblock %}

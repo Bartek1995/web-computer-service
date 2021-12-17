@@ -24,7 +24,7 @@
                     <th>{{element.email}}</th>
                     <th class="flex-btn-containter">
                         <a href="{% url 'Web_Computer_Service:edit_employee_object' element.id %}" class="flex-btn edit-btn"><i class="ti ti-edit"></i></a>
-                        <a href="#" class="flex-btn delete-btn"><i class="ti ti-x"></i></a>
+                        <a href="{% url 'Web_Computer_Service:delete_employee_ask' element.id %}" class="flex-btn delete-btn"><i class="ti ti-x"></i></a>
                     </th>
                 </tr>
                 {% endfor %}
