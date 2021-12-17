@@ -1,0 +1,42 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Utwórz konto pracownika{% endblock %}
+
+{% block content %}
+
+<div class="creator">
+    <h3>Edycja konta pracownika</h3>
+
+    <form method="POST" enctype="multipart/form-data" class="form-employee">
+        {% csrf_token %}
+        
+        <div class="form-area">
+            {% render_field form.employee_account_number class="form-field" placeholder="Numer pracownika" type="number" %}
+        </div>
+        <div class="form-area">
+            {% render_field form.username class="form-field" placeholder="Nazwa użytkownika" type="char" %}
+        </div>
+        <div class="form-area">
+            {% render_field form.phone class="form-field" placeholder="Numer telefonu" type="number" %}
+        </div>
+        <div class="form-area">
+            {% render_field form.email class="form-field" placeholder="Adres email" type="email" %}
+        </div>
+        <div class="form-area password">
+            {% render_field form.password1 class="form-field" placeholder="Hasło" type="password" value="randompassword" %}
+        </div>
+        <div class="form-area password">
+            {% render_field form.password2 class="form-field" placeholder="Potwierdź hasło" type="password" value="randompassword"%}
+        </div>
+        <button type="submit" class="btn-create-account">Aktualizuj informacje</button>
+    </form>
+</div>
+
+<div class="form-errors">
+    {{form.errors}}
+</div>
+
+{% endblock %}
+
