@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from . import views
-from .views import LoginPage, delete_employee_ask
+from .views import LoginPage, delete_employee_ask, order_list
 from django.conf import settings
 from django.conf.urls.static import static
 app_name = "Web_Computer_Service"
@@ -10,6 +10,8 @@ urlpatterns = [
     path('', LoginPage.as_view(), name="login"),
     path('', LogoutView.as_view(), name="logout"),
     path('service', views.service_main_page, name="service"),
+    path('service/create_order', views.create_order, name="create_order"),
+    path('service/order_list', views.order_list, name="order_list"),
     path('service/create_employee', views.create_employee, name='create_employee'),
     path('service/create_customer', views.create_customer, name='create_customer'),
     path('service/edit_employee', views.edit_employee, name='edit_employee'),
