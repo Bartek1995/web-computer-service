@@ -1,6 +1,7 @@
-from django.forms import ModelForm
+from django.db.models import fields
+from django.forms import ModelForm, models
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Order
 from django import forms
 
 
@@ -19,12 +20,7 @@ class EmployeeCreationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['username', 'email', 'phone', 'employee_account_number','is_employee']
-
-        labels = {
-            'username': "Nazwa użytkownika",
-            'employee_account_number': "Numer pracownika",
-        }
+        fields = ['username', 'email', 'phone', 'first_name', 'last_name','is_employee','address']
 
 class CustomerCreationForm(UserCreationForm):
     password1 = forms.CharField(
@@ -41,11 +37,10 @@ class CustomerCreationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['username', 'email', 'phone', 'customer_account_number','is_customer']
+        fields = ['username', 'email', 'phone', 'first_name', 'last_name','is_customer','address']
 
-        labels = {
-            'username': "Nazwa użytkownika",
-            'customer_account_number': "Numer klienta",
-        }
-
+class OrderCreateForm(ModelForm):
     
+    class Meta:
+        model = Order
+        fields = '__all__'
