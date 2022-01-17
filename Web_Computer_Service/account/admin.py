@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, Order
 # Register your models here.
 
 
@@ -13,3 +13,7 @@ class CustomUserAdmin(UserAdmin):
     pass
 
 admin.site.register(User, CustomUserAdmin)
+
+@admin.register(Order)
+class Order(admin.ModelAdmin):
+    pass
