@@ -6,23 +6,43 @@
 
 {% block content %}
 
-<div class="creator">
-    <h3>Edycja konta pracownika</h3>
+    <h3 class="page-function-title">Kreator zakładania konta dla pracownika</h3>
+    <div class="content wrapper">
 
     <form method="POST" enctype="multipart/form-data" class="form-employee">
         {% csrf_token %}
-        
-        <div class="form-area">
-            {% render_field form.employee_account_number class="form-field" placeholder="Numer pracownika" type="number" %}
-        </div>
         <div class="form-area">
             {% render_field form.username class="form-field" placeholder="Nazwa użytkownika" type="char" %}
+            <p>Podaj nową nazwe konta dla użytkownika</p>
+            <p>Wymagane jest też aby nazwa konta była unikatowa.</p>
+            <p>System sprawdzi poprawność danych</p>
+            <hr> 
+        </div>
+        <div class="names">
+            <div class="form-area">
+                {% render_field form.first_name class="form-field" placeholder="Imie" type="char" %}
+            </div>
+            <div class="form-area">
+                {% render_field form.last_name class="form-field" placeholder="Nazwisko" type="char" %}
+            </div>
+        </div>
+        <p>Zmodyfikuj imie oraz nazwisko pracownika</p>
+        <hr>
+        
+        <div class="form-area">
+            {% render_field form.email class="form-field" placeholder="Adres email" type="email" %}
+            <p>Wprowadź adres email dla pracownika </p>
+            <hr> 
         </div>
         <div class="form-area">
             {% render_field form.phone class="form-field" placeholder="Numer telefonu" type="number" %}
+            <p>Podaj nowy numer telefonu</p>
+            <hr> 
         </div>
         <div class="form-area">
-            {% render_field form.email class="form-field" placeholder="Adres email" type="email" %}
+            {% render_field form.address class="form-field" placeholder="Adres" type="char" %}
+            <p>Podaj nowy adres</p>
+            <hr>
         </div>
         <div class="form-area password">
             {% render_field form.password1 class="form-field" placeholder="Hasło" type="password" value="randompassword" %}
@@ -34,7 +54,7 @@
     </form>
 </div>
 
-<div class="form-errors">
+<div class="messages-and-errors">
     {{form.errors}}
 </div>
 
