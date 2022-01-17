@@ -5,38 +5,58 @@
 {% block title %}Utwórz konto klienta{% endblock %}
 
 {% block content %}
-
-<div class="creator">
-    <h3>Kreator zakładania konta dla klienta</h3>
+    <h3 class="page-function-title">Kreator zakładania konta dla klienta</h3>
+    <div class="content wrapper">
 
     <form method="POST" enctype="multipart/form-data" class="form-employee">
         {% csrf_token %}
-        
-        <div class="form-area">
-            {% render_field form.customer_account_number class="form-field" placeholder="Numer klienta" type="number" %}
-        </div>
-        <div class="form-area">
-            {% render_field form.username class="form-field" placeholder="Nazwa użytkownika" type="char" %}
-        </div>
-        <div class="form-area">
-            {% render_field form.phone class="form-field" placeholder="Numer telefonu" type="number" %}
-        </div>
-        <div class="form-area">
-            {% render_field form.email class="form-field" placeholder="Adres email" type="email" %}
-        </div>
-        <div class="form-area password">
-            {% render_field form.password1 class="form-field" placeholder="Hasło" type="password" value="randompassword" %}
-        </div>
-        <div class="form-area password">
-            {% render_field form.password2 class="form-field" placeholder="Potwierdź hasło" type="password" value="randompassword"%}
-        </div>
+            <div class="user-data">
+                <h3>Podstawowe dane konta</h3>
+                <hr>
+                <div class="form-area">
+                    {% render_field form.username class="form-field" placeholder="Nazwa użytkownika" type="char" %}
+                    <p>{{ form.username.errors }}</p>
+                    <p>Podaj nazwe konta dla użytkownika</p>
+                    <p>Nazwa powinna składać się z liter i cyfr o maksymalnej długości 16 znaków.</p> 
+                    <p>Wymagane jest też aby nazwa konta była unikatowa.</p>
+                </div>
+                <div class="form-area">
+                    {% render_field form.email class="form-field" placeholder="Adres email" type="email" %}
+                    <p>Wprowadź adres email dla klienta </p>
+                </div>
+
+            </div>
+            <div class="personal-data">
+                <h3>Dodatkowe dane personalne</h3>
+                <hr>
+                <div class="names">
+                    <div class="form-area">
+                        {% render_field form.first_name class="form-field" placeholder="Imie" type="char" %}
+                    </div>
+                    <div class="form-area">
+                        {% render_field form.last_name class="form-field" placeholder="Nazwisko" type="char" %}
+                    </div>
+                </div>
+                <div class="form-area">
+                    {% render_field form.phone class="form-field" placeholder="Numer telefonu" type="number" %}
+                </div>
+                <div class="form-area">
+                    {% render_field form.address class="form-field" placeholder="Adres" type="char" %}
+                </div>
+                <!-- REQUIRED PASSWORD FIELDS - REPLACED BY RANDOM PASSWORD GENERATOR -->
+                <div class="form-area password">
+                    {% render_field form.password1 class="form-field" placeholder="Hasło" type="password" value="randompassword" %}
+                </div>
+                <div class="form-area password">
+                    {% render_field form.password2 class="form-field" placeholder="Potwierdź hasło" type="password" value="randompassword"%}
+                </div>
+                <!-- --------------------------------------------------------------------------- -->
+            </div>
         <button type="submit" class="btn-create-account">Utwórz konto</button>
     </form>
-</div>
 
-<div class="form-errors">
-    {{form.errors}}
-</div>
+    </div>
+    
 
 {% endblock %}
 
