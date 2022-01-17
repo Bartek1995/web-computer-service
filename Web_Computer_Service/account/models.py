@@ -9,8 +9,23 @@ from phone_field import PhoneField
 class User (AbstractUser): 
     is_employee = models.BooleanField(default=False)
     is_customer = models.BooleanField(default=False)
-    address = models.CharField(max_length=50, default="Brak informacji")
+    address = models.CharField(max_length=50)
     phone = PhoneField(blank=True, help_text="Telefon kontaktowy")
     employee_account_number = models.IntegerField(null=True)
     customer_account_number = models.IntegerField(null=True)
-    # account_create_date = models.DateTimeField(default=timezone.now)
+    account_create_date = models.DateTimeField(auto_now_add = True)
+
+class Order(models.Model):
+    ORDER_STATUS = (
+        (0, "W trakcie weryfikacji"),
+        (1, "Zaakceptowano"),
+        (2, "W trakcie naprawy"),
+        (3, "Ukończono")
+    )
+
+    customer_number = models.ForeignKey(User, limit_choices_to = {'is_customer': True}, on_delete=models.SET_NULL, null=True)
+    order_number = models.IntegerField(primary_key=True, blank=False)
+    order_state = models.IntegerField(default=0, choices=ORDER_STATUS)
+    description = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add = True)
+
