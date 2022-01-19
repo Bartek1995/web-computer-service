@@ -14,7 +14,7 @@ body {
 }
 
 html, body{
-    max-width: 100%;
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -24,11 +24,17 @@ html, body{
 /* -----------------NAVIGATION----------------- */
 
 .nav-top  {
-    position: relative;
+    position: fixed;
     width: 100%;
     height: 50px;
     background-color: rgb(0, 0, 0);
     box-shadow: 0px 0px 20px black;
+}
+
+.wrapper {
+    max-width: 1200px;
+    height: 100%;
+    margin: 0 auto;
 }
 
 .nav-top h1 {
@@ -61,6 +67,7 @@ html, body{
 }
 .nav-left {
     position: relative;
+    top: 50px;
     height: 100vh;
     width: 65px;
 
@@ -77,6 +84,13 @@ html, body{
     font-size: 35px;
 }
 
+.page-function-title {
+    position: absolute;
+    left: 50%;
+    top: 25px;
+    transform: translate(-50%, -50%);
+    color: white;
+}
 /* -----------------NAV LEFT USER BUTTON----------------- */
 .nav-left .nav-text {
     position: absolute;
@@ -90,15 +104,17 @@ html, body{
 }
 .nav-btn {
     position: relative;
-    top: 20px;
+    top: 60px;
     width: 90%;
     height: 60px;
     margin-left: 5px;
     margin-bottom: 20px;
-    overflow: hidden;
+
     background-color: black;
     border-radius: 15px;
-
+    
+    overflow: hidden;
+    z-index: 10;
     transition: 0.5s;
 }
 .nav-btn-list{
@@ -140,16 +156,18 @@ html, body{
 
 .content {
     position: absolute;
-    top: 80px;
-    left: 150px;
+    top: 50px;
+    /* bottom: 20px; */
+    left: 50%;
     width: 80%;
-    height: 90vh;
-    /* background-color: rgba(92, 129, 238, 0.082); */
+    height: calc(100vh - 50px);
     border-radius: 20px;
+    transform: translateX(-50%);
+    overflow: auto;
 }
 
 
-.messages {
+.messages-and-errors {
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -165,8 +183,22 @@ html, body{
 .type-success {
     background-color: rgba(37, 201, 37, 0.788);
 }
+.type-error {
+    background-color: red;
+    width: 700px;
+}
 .type-info {
     background-color: goldenrod
+}
+
+.error {
+    margin-bottom: 10px;
+}
+.errorlist {
+    list-style: none;
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 /* -----------------CREATING ACCOUNT COMPLETE----------------- */
 
@@ -174,7 +206,7 @@ html, body{
 .account-create-complete {
     position: absolute;
     left: 50%;
-    top: 50px;
+    top: 100px;
 
     transform: translateX(-50%);
 }
@@ -194,53 +226,70 @@ html, body{
 }
 
 /* -----------------CREATING ACCOUNT FORM----------------- */
-
-
-.creator h3 {
-    position: absolute;
-    left: 50%;
-    top: 50px;
-    transform: translate(-50%, -50%);
-}
 .form-employee {
     position: absolute;
-    top: 330px;
-    left: 50%;
-    display: flex;
-    flex-direction: column;
-    transform: translate(-50%, -50%);
+    top: 5%;
+    margin-left: 10%;
 }
-
 .form-employee td {
     padding: 20px;
 }
+.form-employee .error {
+    margin-left: 12px;
+    color: red;
+    font-weight: bold;
+    font-size: 13.5px;
+}
+.form-area{
+    margin-top: 30px;
+
+}
+.form-employee hr {
+    margin-top: 5px;
+}
+.names {
+    display: flex;
+    flex-direction: row;
+}
 
 .form-field {
-    padding: 20px;
-    margin: 20px 0;
+    padding: 0 20px;
+    margin: 20px 10px;
     height: 50px;
     width: 250px;
-    background-color: #353333;
+    background-color: #0c0c0c;
     color: white;
     border: 2px solid black;
     border-radius: 15px;
 }
+.form-employee h3 {
+    margin-bottom: 5px;
+    margin-top: 20px;
+}
 
-.btn-create-account {
+.form-employee p {
+    font-size: 13.5px;
+}
+.personal-data {
     margin-top: 40px;
+}
+.btn-custom {
+    margin: 40px;
     padding: 10px 30px;
-
-
+    
+    font-size: 14px;
     background-color: rgb(126, 126, 126);
+    color: black;
     text-transform: uppercase;
     border-radius: 15px;
     border: none;
-
+    text-decoration: none;
     font-weight: bold;
     transition: background-color 0.5s;
 }
 
-.btn-create-account:hover {
+
+.btn-custom:hover {
     background-color: rgb(90, 197, 19);
 }
 
@@ -265,7 +314,7 @@ html, body{
 .generated-password {
     margin-top: 40px;
 }
-/* -----------------EDIT EMPLOYEE PAGE----------------- */
+/* -----------------EDIT EMPLOYEE LIST----------------- */
 
 .edit-employee {
     height: 80%;
@@ -277,10 +326,6 @@ html, body{
     overflow: auto;
 }
 
-.content h3 {
-    padding: 20px;
-    text-align: center;
-}
 .employee-object {
     margin-top: 40px;
 }
@@ -338,20 +383,39 @@ html, body{
     position: absolute;
     top: 40%;
     left: 50%;
+    width: 600px;
+    height: 400px;
     transform: translate(-50%, -50%);
 }
-
+.delete_confirmation h3 {
+    text-align: center;
+}
 .delete-a-btn {
+    position: absolute;
+    top: 30%;
     margin: 40px;
     padding: 10px 30px;
     color: white;
     text-decoration: none;
     border-radius: 25px;
+    transform: translate(-50%, -50%);
+
 }
 
 .delete-accept {
     background-color: green;
+    left: 20%;
 }
 .delete-cancel {
     background-color: red;
+    left: 80%;
+}
+
+
+/* -----------------CREATE ORDER PAGE----------------- */
+
+
+.content .text-area{
+    width: 300px;
+    height: 150px;
 }
