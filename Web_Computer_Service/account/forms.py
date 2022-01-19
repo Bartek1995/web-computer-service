@@ -40,7 +40,7 @@ class CustomerCreationForm(UserCreationForm):
         fields = ['username', 'email', 'phone', 'first_name', 'last_name','is_customer','address']
 
 class OrderCreateForm(ModelForm):
-    
+    customer_number = forms.IntegerField(required=True)
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ['customer_number','order_state','description']
