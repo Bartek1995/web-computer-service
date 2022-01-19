@@ -104,22 +104,18 @@ def create_order(request):
             User.objects.get(id=data_from_form.customer_number, is_customer = 1)
         except User.DoesNotExist:
             request.session['customer_number'] = form.cleaned_data['customer_number']
-            request.session['order_state'] = form.cleaned_data['order_state']
-            request.session['description'] = form.cleaned_data['description']
             request.session['error_text'] = "Brak klienta o takim numerze konta, sprawdź poprawność danych."
             return redirect('Web_Computer_Service:create_order')
         else:
             if form.is_valid():
+                Order_object = form.save(commit=False)
                 form.save()
                 messages.success(request, 'Utworzono nowe zlecenie')
-                clean_order_cookies(request)
-                return redirect('Web_Computer_Service:service')
+                return render (request, 'service_functions/order_management_ask.html', {'Order' : Order_object})
     else:
-        if 'description' in request.session:
+        if 'customer_number' in request.session:
             initial_form_data_from_session = {
                 'customer_number' : request.session['customer_number'],
-                'order_state': request.session['order_state'],
-                'description': request.session['description'],
             }
             form = OrderCreateForm(initial=initial_form_data_from_session)
         else:
@@ -129,16 +125,22 @@ def create_order(request):
     else:
         return render (request, 'service_functions/create_order.html', {'form' : form})
 
+def order_management_ask(request):
+    return render (request, 'service_functions/order_management_ask.html')
+
+def order_management(request, id):
+    order = get_object_or_404(Order, pk=id)
+    return render (request, 'service_functions/order_management.html', {'order' : order})
 
 
 def clean_order_cookies(request):
     try:
+        del request.session['error_text']
         del request.session['customer_number']
         del request.session['order_state']
         del request.session['description']
-        del request.session['error_text']
     except KeyError:
-        messages.info(request, "Formularz jest pusty")
+        messages.info(request, "Formularz został wyczyszczony")
     finally:
         return redirect('Web_Computer_Service:create_order')
         

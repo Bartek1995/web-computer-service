@@ -11,6 +11,7 @@ urlpatterns = [
     path('', LogoutView.as_view(), name="logout"),
     path('service', views.service_main_page, name="service"),
     path('service/create_order', views.create_order, name="create_order"),
+    path('service/order_management/<int:id>', views.order_management, name="order_management"),
     path('service/order_list', views.order_list, name="order_list"),
     path('service/clean_order_cookies', views.clean_order_cookies, name="clean_order_cookies"),
     path('service/create_employee', views.create_employee, name='create_employee'),
