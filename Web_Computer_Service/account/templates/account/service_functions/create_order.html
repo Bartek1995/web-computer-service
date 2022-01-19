@@ -1,0 +1,35 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Utwórz konto pracownika{% endblock %}
+
+{% block content %}
+
+<div class="creator">
+    <h3>Kreator tworzenia nowego zlecenia</h3>
+
+    <form method="POST" enctype="multipart/form-data" class="form-employee">
+        {% csrf_token %}
+        
+        <div class="form-area">
+            {% render_field form.customer_number class="form-field" placeholder="Numer klienta" type="number" %}
+        </div>
+        <p class="error">{{ error }}</p>
+        <div class="form-area">
+            {% render_field form.order_state class="form-field status-order" placeholder="Status zamówienia" type="number" %}
+        </div>
+        <div class="form-area">
+            {% render_field form.description class="form-field text-area" placeholder="Wprowadź opis zlecenia" type="text" %}
+        </div>
+        <button type="submit" class="btn-custom">Utwórz zlecenie</button>
+        <span><a class="btn-custom" href="{% url 'Web_Computer_Service:clean_order_cookies'%}">Wyczyść dane formularza</a></span>
+    </form>
+</div>
+
+<div class="form-errors">
+    {{form.errors}}
+</div>
+
+{% endblock %}
+

@@ -1,11 +1,13 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.base import TemplateView
 from django.utils.crypto import get_random_string
 from django.contrib import messages
-from .forms import EmployeeCreationForm, CustomerCreationForm
-from .models import User
+from .forms import EmployeeCreationForm, CustomerCreationForm, OrderCreateForm
+from .models import User, Order
 
 def main(request):
     return render(request, 'index.html')
@@ -13,11 +15,10 @@ def main(request):
 class LoginPage(LoginView):
     template_name = "account/index.html"
 
-# class ServiceMainPage(TemplateView):
-#     template_name = 'service.html'
-
 def service_main_page(request):
     return render (request, 'service.html')
+
+# --------------USER MANAGEMENT--------------
 
 def create_employee(request):
     if request.method == "POST":
@@ -80,7 +81,7 @@ def create_customer(request):
                 'user': new_customer,
                 'password': random_password
                 }
-            return render(request, 'service_functions/employee_create_complete.html', contex)
+            return render(request, 'service_functions/customer_create_complete.html', contex)
 
     else:
         form = CustomerCreationForm()
@@ -90,3 +91,55 @@ def create_customer(request):
 def edit_employee(request):
     data = User.objects.filter(is_employee=True)
     return render(request, 'service_functions/edit_employee.html', {'user': data})
+
+
+
+# --------------------------ORDER MANAGEMENT------------------------------
+
+def create_order(request):
+    if request.method == "POST":
+        form = OrderCreateForm(request.POST)
+        data_from_form = form.save(commit=False)
+        try:
+            User.objects.get(id=data_from_form.customer_number, is_customer = 1)
+        except User.DoesNotExist:
+            request.session['customer_number'] = form.cleaned_data['customer_number']
+            request.session['order_state'] = form.cleaned_data['order_state']
+            request.session['description'] = form.cleaned_data['description']
+            request.session['error_text'] = "Brak klienta o takim numerze konta, sprawdź poprawność danych."
+            return redirect('Web_Computer_Service:create_order')
+        else:
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Utworzono nowe zlecenie')
+                clean_order_cookies(request)
+                return redirect('Web_Computer_Service:service')
+    else:
+        if 'description' in request.session:
+            initial_form_data_from_session = {
+                'customer_number' : request.session['customer_number'],
+                'order_state': request.session['order_state'],
+                'description': request.session['description'],
+            }
+            form = OrderCreateForm(initial=initial_form_data_from_session)
+        else:
+            form = OrderCreateForm()
+    if 'error_text' in request.session:
+        return render (request, 'service_functions/create_order.html', {'form' : form, 'error' : request.session['error_text']})
+    else:
+        return render (request, 'service_functions/create_order.html', {'form' : form})
+
+
+
+def clean_order_cookies(request):
+    del request.session['customer_number']
+    del request.session['order_state']
+    del request.session['description']
+    del request.session['error_text']
+    return redirect('Web_Computer_Service:create_order')
+
+
+
+def order_list(request):
+    orders = Order.objects.all()
+    return render(request, 'service_functions/order_list.html',{'order' : orders} )

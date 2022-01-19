@@ -12,6 +12,7 @@ urlpatterns = [
     path('service', views.service_main_page, name="service"),
     path('service/create_order', views.create_order, name="create_order"),
     path('service/order_list', views.order_list, name="order_list"),
+    path('service/clean_order_cookies', views.clean_order_cookies, name="clean_order_cookies"),
     path('service/create_employee', views.create_employee, name='create_employee'),
     path('service/create_customer', views.create_customer, name='create_customer'),
     path('service/edit_employee', views.edit_employee, name='edit_employee'),
