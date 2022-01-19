@@ -6,8 +6,8 @@
 
 {% block content %}
 
-<div class="creator">
-    <h3>Kreator tworzenia nowego zlecenia</h3>
+    <h3 class="page-function-title">Kreator tworzenia nowego zlecenia</h3>
+    <div class="content wrapper">
 
     <form method="POST" enctype="multipart/form-data" class="form-employee">
         {% csrf_token %}
@@ -16,12 +16,16 @@
             {% render_field form.customer_number class="form-field" placeholder="Numer klienta" type="number" %}
         </div>
         <p class="error">{{ error }}</p>
+        <p>Podaj numer klienta aby utworzyć zlecenie.</p> 
+        <p>System sprawdzi czy istnieje konto użytkownika o takim numerze oraz czy ma status klienta.</p>
         <div class="form-area">
             {% render_field form.order_state class="form-field status-order" placeholder="Status zamówienia" type="number" %}
         </div>
+        <p>Nadaj status</p>
         <div class="form-area">
             {% render_field form.description class="form-field text-area" placeholder="Wprowadź opis zlecenia" type="text" %}
         </div>
+        <p>Wprowadź szczegółowy opis zlecenia. Uwzględnij sprzęt oraz typ usterki. Pamiętaj aby nadać odpowiedni status dla zlecenia</p>
         <button type="submit" class="btn-custom">Utwórz zlecenie</button>
         <span><a class="btn-custom" href="{% url 'Web_Computer_Service:clean_order_cookies'%}">Wyczyść dane formularza</a></span>
     </form>
@@ -30,6 +34,13 @@
 <div class="form-errors">
     {{form.errors}}
 </div>
+{% if messages %}
+{% for message in messages %}
+<div class="messages-and-errors type-{{message.tags}}">
+        {{ message }}
+</div>
+{% endfor %}
+{% endif %}
 
 {% endblock %}
 
