@@ -18,14 +18,6 @@
         <p class="error">{{ error }}</p>
         <p>Podaj numer klienta aby utworzyć zlecenie.</p> 
         <p>System sprawdzi czy istnieje konto użytkownika o takim numerze oraz czy ma status klienta.</p>
-        <div class="form-area">
-            {% render_field form.order_state class="form-field status-order" placeholder="Status zamówienia" type="number" %}
-        </div>
-        <p>Nadaj status</p>
-        <div class="form-area">
-            {% render_field form.description class="form-field text-area" placeholder="Wprowadź opis zlecenia" type="text" %}
-        </div>
-        <p>Wprowadź szczegółowy opis zlecenia. Uwzględnij sprzęt oraz typ usterki. Pamiętaj aby nadać odpowiedni status dla zlecenia</p>
         <button type="submit" class="btn-custom">Utwórz zlecenie</button>
         <span><a class="btn-custom" href="{% url 'Web_Computer_Service:clean_order_cookies'%}">Wyczyść dane formularza</a></span>
     </form>

@@ -1,0 +1,26 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Potwierdzenie utworzenia zamówienia{% endblock %}
+
+{% block content %}
+
+<div class="content wrapper">
+    
+    <div class="ask">
+        <h3>Czy chcesz przejść do zarządzania tym zamówieniem?</h3>
+        <a href="{% url 'Web_Computer_Service:order_management' Order.id %}" class="delete-a-btn delete-accept">Tak</a>
+        <a href="{% url 'Web_Computer_Service:service'%}" class="delete-a-btn delete-cancel">Nie</a>
+    </div>
+    
+    {% if messages %}
+    {% for message in messages %}
+    <div class="messages-and-errors type-{{message.tags}}">
+            {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -43,4 +43,4 @@ class OrderCreateForm(ModelForm):
     customer_number = forms.IntegerField(required=True)
     class Meta:
         model = Order
-        fields = ['customer_number','order_state','description']
+        fields = ['customer_number']
