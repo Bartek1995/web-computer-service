@@ -132,11 +132,16 @@ def create_order(request):
 
 
 def clean_order_cookies(request):
-    del request.session['customer_number']
-    del request.session['order_state']
-    del request.session['description']
-    del request.session['error_text']
-    return redirect('Web_Computer_Service:create_order')
+    try:
+        del request.session['customer_number']
+        del request.session['order_state']
+        del request.session['description']
+        del request.session['error_text']
+    except KeyError:
+        messages.info(request, "Formularz jest pusty")
+    finally:
+        return redirect('Web_Computer_Service:create_order')
+        
 
 
 
