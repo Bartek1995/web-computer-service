@@ -22,9 +22,7 @@ class Order(models.Model):
         (2, "W trakcie naprawy"),
         (3, "Ukończono")
     )
-
-    customer_number = models.ForeignKey(User, limit_choices_to = {'is_customer': True}, on_delete=models.SET_NULL, null=True)
-    order_number = models.IntegerField(primary_key=True, blank=False)
+    customer_number = models.IntegerField(blank=True)
     order_state = models.IntegerField(default=0, choices=ORDER_STATUS)
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add = True)
