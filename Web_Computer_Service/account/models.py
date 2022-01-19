@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phone_field import PhoneField
@@ -26,4 +27,19 @@ class Order(models.Model):
     order_state = models.IntegerField(default=0, choices=ORDER_STATUS)
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add = True)
+
+class DeviceName(models.Model):
+    CATEGORY_ID = (
+    (0, "Podzespoły komputerowe"),
+    (1, "Monitory"),
+    (2, "Klawiatury i myszki"),
+    (3, "Dyski i nośniki danych"),
+    (4, "Słuchawki"),
+    (5, "Drukarki i skanery"),
+    (6, "Kable i akcesoria"),
+    (7, "Inne"),
+    )
+    order_number = models.IntegerField(blank=False)
+    device_name = models.CharField(max_length=60)
+    category = models.IntegerField(default=7, choices=CATEGORY_ID)
 
