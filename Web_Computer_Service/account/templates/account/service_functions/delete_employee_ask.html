@@ -8,7 +8,7 @@
 
 <div class="content wrapper">
     
-    <div class="delete_confirmation">
+    <div class="ask">
         <h3>Czy na pewno chcesz usunąć konto o id = {{user.id}}</h3>
         <a href="{% url 'Web_Computer_Service:delete_employee_confirmation' user.id %}" class="delete-a-btn delete-accept">Potwierdź</a>
     <a href="{% url 'Web_Computer_Service:delete_employee_cancel'%}" class="delete-a-btn delete-cancel">Odrzuć</a>
