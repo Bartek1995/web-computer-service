@@ -1,0 +1,76 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Zarządzanie zamówieniem{% endblock %}
+
+{% block content %}
+
+    <h3 class="page-function-title">Zarządzanie zamówieniem</h3>
+    <div class="content wrapper">
+
+    <div class="order-management-block">
+        <p class="order-block title">Zamówienie nr. {{order.id}}</p>
+        <div class="order-management-block-bg">
+
+            <div class="customer-data window">
+                <p class="order-block data-title">Dane klienta</p>
+                <div class="order-data-bg">
+                    <span>{{user.first_name}}</span>
+                    <span>{{user.last_name}}</span>
+                    <p>{{user.email}}</p>
+                    <p>{{user.address}}</p>
+                </div>
+            </div>
+
+            <div class="order-data window">
+                <p class="order-block data-title">Informacje o zleceniu</p>
+                <div class="order-data-bg">
+                    <p>Data utworzenia: <span>{{order.created_at}}</span></p>
+                    <p>Status zlecenia: <span>{{order_state}}</span></p>
+                    <p>Data ukończenia: <span>DO  USTAWIENIA</span></p>
+                </div>
+            </div>
+
+            <div class="description-data window">
+                <p class="order-block data-title">Opis zlecenia</p>
+                <div class="order-data-bg description">
+                    {% if not order.description %}
+                    <a href="{% url 'Web_Computer_Service:modify_description' order.id %}" class="btn-custom">Dodaj opis</a>
+                    {% else %}
+                    <p>{{order.description}}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="device-data window">
+                <p class="order-block data-title">Informacje o sprzęcie</p>
+                <div class="order-data-bg">
+                    data
+                </div>
+            </div>
+
+            <div class="button-list">
+                <ul>
+                    <li><a href="" class="btn-custom">Dodaj sprzęt do zlecenia</a></li>
+                    <li><a href="" class="btn-custom change">Zmień status zlecenia</a></li>
+                    {% if order.description %}
+                    <li><a href="{% url 'Web_Computer_Service:modify_description' order.id %}" class="btn-custom change">Edytuj opis zlecenia</a></li>
+                    {% endif %}
+                    <li><a href="" class="btn-custom delete">Skasuj zlecenie</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+    {% if messages %}
+    {% for message in messages %}
+    <div class="messages-and-errors type-{{message.tags}}">
+            {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

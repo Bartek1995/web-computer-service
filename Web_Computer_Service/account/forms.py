@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db.models import fields
 from django.forms import ModelForm, models
 from django.contrib.auth.forms import UserCreationForm
@@ -44,3 +45,9 @@ class OrderCreateForm(ModelForm):
     class Meta:
         model = Order
         fields = ['customer_number']
+
+class AddDescriptionToOrder(ModelForm):
+    description = forms.CharField(required=True)
+    class Meta:
+        model = Order
+        fields = ['description']

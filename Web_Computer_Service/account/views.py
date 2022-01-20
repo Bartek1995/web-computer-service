@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, FormView
 from django.views.generic.base import TemplateView
 from django.utils.crypto import get_random_string
 from django.contrib import messages
-from .forms import EmployeeCreationForm, CustomerCreationForm, OrderCreateForm
+from .forms import EmployeeCreationForm, CustomerCreationForm, OrderCreateForm, AddDescriptionToOrder
 from .models import User, Order
 
 def main(request):
@@ -129,10 +129,56 @@ def order_management_ask(request):
     return render (request, 'service_functions/order_management_ask.html')
 
 def order_management(request, id):
+    try:
+        del request.session['confirmation']
+    except:
+        pass
     order = get_object_or_404(Order, pk=id)
-    return render (request, 'service_functions/order_management.html', {'order' : order})
+    user = User.objects.get(pk = order.customer_number)
+
+    match order.order_state:
+        case 0:
+            order_state = "W trakcie weryfikacji"
+        case 1:
+            order_state = "Zaakceptowano"
+        case 2:
+            order_state = "W trakcie naprawy"
+        case 3:
+            order_state = "Ukończono"
+
+    context = {
+        'order' : order,
+        'order_state' : order_state,
+        'user' : user
+        }
+    return render (request, 'service_functions/order_management.html', context)
+
+def modify_description (request, id):
+    order = get_object_or_404(Order, pk=id)
+    initial_data= {
+        'description' : order.description
+        }
+    if request.method == "POST":
+        form = AddDescriptionToOrder(request.POST)
+        if form.is_valid():
+            order.description = form.cleaned_data['description']
+            request.session['confirmation'] = "Zaktualizowano dane"
+            order.save()
+    else:
+        form = AddDescriptionToOrder(initial = initial_data)
+    context = {
+        'form' : form,
+        'order' : order,
+    }
+
+    if 'confirmation' in request.session:
+        context['confirmation'] = request.session['confirmation']
+        return render (request, 'service_functions/add_description_to_order.html', context, )
+    else:
+        return render(request, 'service_functions/add_description_to_order.html', context  )
 
 
+    
 def clean_order_cookies(request):
     try:
         del request.session['error_text']

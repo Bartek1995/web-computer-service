@@ -191,6 +191,12 @@ html, body{
     background-color: goldenrod
 }
 
+.confirmation {
+    margin-left: 20px;
+    margin-bottom: 30px;
+    color: rgb(78, 139, 16);
+    font-weight: bold;
+}
 .error {
     margin-bottom: 10px;
 }
@@ -242,7 +248,10 @@ html, body{
 }
 .form-area{
     margin-top: 30px;
-
+}
+.form-area p {
+    margin-left: 20px;
+    font-size: 13.5px;
 }
 .form-employee hr {
     margin-top: 5px;
@@ -293,6 +302,13 @@ html, body{
     background-color: rgb(90, 197, 19);
 }
 
+.change:hover {
+background-color: rgb(255, 123, 0);
+}
+
+.delete:hover {
+background-color: rgb(255, 0, 0);
+}
 .form-errors {
     position: absolute;
     top: 100px;
@@ -379,7 +395,7 @@ html, body{
 
 /* -----------------DELETE EMPLOYEE PAGE----------------- */
 
-.delete_confirmation {
+.ask {
     position: absolute;
     top: 40%;
     left: 50%;
@@ -387,7 +403,7 @@ html, body{
     height: 400px;
     transform: translate(-50%, -50%);
 }
-.delete_confirmation h3 {
+.ask h3 {
     text-align: center;
 }
 .delete-a-btn {
@@ -408,7 +424,7 @@ html, body{
 }
 .delete-cancel {
     background-color: red;
-    left: 80%;
+    left: 70%;
 }
 
 
@@ -418,4 +434,106 @@ html, body{
 .content .text-area{
     width: 300px;
     height: 150px;
+}
+
+/* -----------------ORDER MANAGEMENT----------------- */
+
+.order-management-block{
+    position: relative;
+    margin-top: 30px;
+    height: 90%;
+    width: 100%;
+    border: solid 2px black;
+    border-radius: 15px;
+    background-color: black;
+    overflow: hidden;
+}
+
+.order-management-block-bg{
+    position: absolute;
+    bottom: 0;
+    height: calc(100% - 20px);
+    width: 100%;
+    background-color: white;
+}
+.order-block {
+    text-align: center;
+    color: white;
+}
+
+.title {
+    line-height: 20px;
+}
+
+.data-title {
+    font-weight: 400;
+    line-height: 25px;
+    text-transform: uppercase;
+}
+
+/* -------------- SMALL WINDOWS INSIDE ORDER MANAGEMENT BLOCK------------- */
+.window {
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: black;
+    text-align: center;
+    overflow: hidden;
+}
+
+.customer-data{
+    top: 5%;
+    left: 5%;
+    width: 250px;
+    height: 130px;
+    font-weight: bold;
+}
+
+.order-data{
+    top: 5%;
+    left: 30%;
+    width: 350px;
+    height: 130px;
+
+}
+
+.device-data{
+    top: 30%;
+    left: 5%;
+    width: 650px;
+    height: 370px;
+}
+.order-data-bg{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - 25px);
+    background-color: white;
+    color: black;
+    padding-top: 20px;
+}
+
+.order-data-bg span {
+    font-weight: bold;
+}
+
+.description{
+    padding-top: 20px;
+}
+
+.description-data{
+    top: 5%;
+    left: 62%;
+    width: 400px;
+    height: 130px;
+}
+.button-list {
+    position: absolute;
+    top: 40%;
+    left: 63%;
+}
+.button-list li{
+    padding: 20px;
+    text-align: center;
+    list-style-type: none;
 }
