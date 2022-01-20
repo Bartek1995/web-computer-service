@@ -25,7 +25,7 @@ class Order(models.Model):
     )
     customer_number = models.IntegerField(blank=True)
     order_state = models.IntegerField(default=0, choices=ORDER_STATUS)
-    description = models.CharField(max_length=255, blank=True)
+    description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add = True)
 
 class DeviceName(models.Model):
