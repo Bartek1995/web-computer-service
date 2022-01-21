@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, FormView
 from django.views.generic.base import TemplateView
 from django.utils.crypto import get_random_string
 from django.contrib import messages
-from .forms import EmployeeCreationForm, CustomerCreationForm, OrderCreateForm, AddDescriptionToOrder
+from .forms import EmployeeCreationForm, CustomerCreationForm, OrderCreateForm, AddDescriptionToOrder, AddOrderStateToOrder
 from .models import User, Order
 
 def main(request):
@@ -104,7 +104,7 @@ def create_order(request):
             User.objects.get(id=data_from_form.customer_number, is_customer = 1)
         except User.DoesNotExist:
             request.session['customer_number'] = form.cleaned_data['customer_number']
-            request.session['error_text'] = "Brak klienta o takim numerze konta, sprawdź poprawność danych."
+            request.session['error_text'] = "Brak klienta o takim numerze konta, sprawdź poprawność danych lub wyczyść formularz i spróbuj ponownie."
             return redirect('Web_Computer_Service:create_order')
         else:
             if form.is_valid():
@@ -128,6 +128,19 @@ def create_order(request):
 def order_management_ask(request):
     return render (request, 'service_functions/order_management_ask.html')
 
+
+def set_number_of_order_state_as_string(order_state_number):
+        match order_state_number:
+            case 0:
+                order_state = "W trakcie weryfikacji"
+            case 1:
+                order_state = "Zaakceptowano"
+            case 2:
+                order_state = "W trakcie naprawy"
+            case 3:
+                order_state = "Ukończono"
+        return order_state
+        
 def order_management(request, id):
     try:
         del request.session['confirmation']
@@ -136,22 +149,15 @@ def order_management(request, id):
     order = get_object_or_404(Order, pk=id)
     user = User.objects.get(pk = order.customer_number)
 
-    match order.order_state:
-        case 0:
-            order_state = "W trakcie weryfikacji"
-        case 1:
-            order_state = "Zaakceptowano"
-        case 2:
-            order_state = "W trakcie naprawy"
-        case 3:
-            order_state = "Ukończono"
+    order_state_as_string = set_number_of_order_state_as_string(order.order_state)
 
     context = {
         'order' : order,
-        'order_state' : order_state,
+        'order_state' : order_state_as_string,
         'user' : user
         }
     return render (request, 'service_functions/order_management.html', context)
+
 
 def modify_description (request, id):
     order = get_object_or_404(Order, pk=id)
@@ -165,7 +171,7 @@ def modify_description (request, id):
             request.session['confirmation'] = "Zaktualizowano dane"
             order.save()
     else:
-        form = AddDescriptionToOrder(initial = initial_data)
+        form = AddDescriptionToOrder(instance = order)
     context = {
         'form' : form,
         'order' : order,
@@ -176,6 +182,32 @@ def modify_description (request, id):
         return render (request, 'service_functions/add_description_to_order.html', context, )
     else:
         return render(request, 'service_functions/add_description_to_order.html', context  )
+
+
+def modify_order_state (request, id):
+    order = get_object_or_404(Order, pk=id)
+
+    if request.method == "POST":
+        form = AddOrderStateToOrder(request.POST)
+        if form.is_valid():
+            order.order_state = form.cleaned_data['order_state']
+            request.session['confirmation'] = "Zaktualizowano dane" 
+            order.save()
+    else:
+        initial_data= {
+        'order_state' : order.order_state
+        }
+        form = AddOrderStateToOrder(initial = initial_data)
+    context = {
+        'form' : form,
+        'order' : order,
+    }
+
+    if 'confirmation' in request.session:
+        context['confirmation'] = request.session['confirmation']
+        return render (request, 'service_functions/modify_order_state.html', context, )
+    else:
+        return render(request, 'service_functions/modify_order_state.html', context  )
 
 
     
@@ -190,9 +222,7 @@ def clean_order_cookies(request):
     finally:
         return redirect('Web_Computer_Service:create_order')
         
-
-
-
+# def create_device()
 def order_list(request):
     orders = Order.objects.all()
     return render(request, 'service_functions/order_list.html',{'order' : orders} )

@@ -51,3 +51,8 @@ class AddDescriptionToOrder(ModelForm):
     class Meta:
         model = Order
         fields = ['description']
+
+class AddOrderStateToOrder(ModelForm):
+    class Meta:
+        model = Order
+        fields = ['order_state']

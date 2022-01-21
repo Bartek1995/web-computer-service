@@ -1,0 +1,28 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Utwórz konto pracownika{% endblock %}
+
+{% block content %}
+
+    <h3 class="page-function-title">Zmień status zlecenia</h3>
+    <div class="content wrapper">
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="form-area">
+                {% render_field form.order_state class="form-field" type="char" %}
+                <p class="confirmation">{{confirmation}}</p>
+                <p>Proszę wybrać odpowiedni status zlecenia.</p>
+            </div>
+        <button type="submit" class="btn-custom">Zatwierdź</button>
+    </form>
+    <a href="{% url 'Web_Computer_Service:order_management' order.id %}" class="btn-custom">Wróć do edycji zlecenia</a>
+    </div>
+    <div class="messages-and-errors">
+        {{form.errors}}
+    </div>
+
+{% endblock %}
+

@@ -53,7 +53,7 @@
             <div class="button-list">
                 <ul>
                     <li><a href="" class="btn-custom">Dodaj sprzęt do zlecenia</a></li>
-                    <li><a href="" class="btn-custom change">Zmień status zlecenia</a></li>
+                    <li><a href="{% url 'Web_Computer_Service:modify_order_state' order.id %}" class="btn-custom change">Zmień status zlecenia</a></li>
                     {% if order.description %}
                     <li><a href="{% url 'Web_Computer_Service:modify_description' order.id %}" class="btn-custom change">Edytuj opis zlecenia</a></li>
                     {% endif %}
