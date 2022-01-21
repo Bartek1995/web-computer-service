@@ -2,7 +2,7 @@ from pyexpat import model
 from django.db.models import fields
 from django.forms import ModelForm, models
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Order
+from .models import OrderDevice, User, Order
 from django import forms
 
 
@@ -56,3 +56,8 @@ class AddOrderStateToOrder(ModelForm):
     class Meta:
         model = Order
         fields = ['order_state']
+
+class AddDeviceToOrder(ModelForm):
+    class Meta:
+        model = OrderDevice
+        fields = ['device_name','category']

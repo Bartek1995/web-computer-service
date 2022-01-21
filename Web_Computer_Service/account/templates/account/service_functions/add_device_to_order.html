@@ -1,0 +1,29 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Utwórz konto pracownika{% endblock %}
+
+{% block content %}
+
+    <h3 class="page-function-title">Dodaj urządzenie do zlecenia</h3>
+    <div class="content wrapper">
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="form-area">
+                {% render_field form.device_name  class="form-field" placeholder="Nazwa urządzenia" type="char" %}
+                {% render_field form.category  class="form-field" placeholder="Kategoria" type="char" %}
+                <p class="confirmation">{{confirmation}}</p>
+                <p>Proszę wprowadzić odpowiednia nazwę sprzętu oraz wybrać dla niego kategorie</p>
+            </div>
+        <button type="submit" class="btn-custom">Zatwierdź</button>
+    </form>
+    <a href="{% url 'Web_Computer_Service:order_management' order.id %}" class="btn-custom">Wróć do edycji zlecenia</a>
+    </div>
+    <div class="messages-and-errors">
+        {{form.errors}}
+    </div>
+
+{% endblock %}
+
