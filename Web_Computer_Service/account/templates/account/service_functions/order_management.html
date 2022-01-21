@@ -46,13 +46,33 @@
             <div class="device-data window">
                 <p class="order-block data-title">Informacje o sprzęcie</p>
                 <div class="order-data-bg">
-                    data
+                    
+                    <p>{{device.device_name}}</p>
+                    
+
+
+                    <table class="employee-table">
+                        <tr class="table-title">
+                            <th>Nazwa sprzętu</th>
+                            <th>Kategoria</th>
+                        </tr>
+                            {% for device in order_device_list %}
+                            <tr class="table-data">
+                                <th>{{device.device_name}}</th>
+                                <th>{{device.category}}</th>
+                            </tr>
+                            {% endfor %}
+            
+                    </table>
+
+
+
                 </div>
             </div>
 
             <div class="button-list">
                 <ul>
-                    <li><a href="" class="btn-custom">Dodaj sprzęt do zlecenia</a></li>
+                    <li><a href="{% url 'Web_Computer_Service:add_device_to_order' order.id %}" class="btn-custom">Dodaj sprzęt do zlecenia</a></li>
                     <li><a href="{% url 'Web_Computer_Service:modify_order_state' order.id %}" class="btn-custom change">Zmień status zlecenia</a></li>
                     {% if order.description %}
                     <li><a href="{% url 'Web_Computer_Service:modify_description' order.id %}" class="btn-custom change">Edytuj opis zlecenia</a></li>
