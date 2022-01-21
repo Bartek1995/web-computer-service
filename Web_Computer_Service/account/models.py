@@ -28,7 +28,7 @@ class Order(models.Model):
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add = True)
 
-class DeviceName(models.Model):
+class OrderDevice(models.Model):
     CATEGORY_ID = (
     (0, "Podzespoły komputerowe"),
     (1, "Monitory"),
@@ -38,8 +38,9 @@ class DeviceName(models.Model):
     (5, "Drukarki i skanery"),
     (6, "Kable i akcesoria"),
     (7, "Inne"),
+    (8, "Nie przypisano"),
     )
     order_number = models.IntegerField(blank=False)
     device_name = models.CharField(max_length=60)
-    category = models.IntegerField(default=7, choices=CATEGORY_ID)
+    category = models.IntegerField(default=8, choices=CATEGORY_ID)
 
