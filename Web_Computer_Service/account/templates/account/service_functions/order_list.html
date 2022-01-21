@@ -1,0 +1,42 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Edytuj konto pracownika{% endblock %}
+
+{% block content %}
+
+<h3>Lista zamówień</h3>
+<div class="content wrapper">
+        <div class="employee-object">
+            <table class="employee-table">
+                <tr class="table-title">
+                    <th>Numer klienta</th>
+                    <th>Imie</th>
+                    <th>Nazwisko</th>
+                    <th>Status zamówienia</th>
+                    <th>Data utworzenia</th>
+                </tr>
+                    {% for element in order %}
+                    <tr class="table-data">
+                        <th>{{element.customer_number}}</th>
+                        <th>{{element.first_name}}</th>
+                        <th>{{element.last_name}}</th>
+                        <th>{{element.order_state}}</th>
+                        <th>{{element.created_at}}</th>
+                        <th class="flex-btn-containter">
+                            <a href="{% url 'Web_Computer_Service:order_management' element.id %}" class="flex-btn edit-btn"><i class="ti ti-edit"></i></a>
+                            <a href="{% url 'Web_Computer_Service:delete_employee_ask' element.id %}" class="flex-btn delete-btn"><i class="ti ti-x"></i></a>
+                        </th>
+                    </tr>
+                    {% endfor %}
+
+            </table>
+        </div>
+</div>
+        
+
+
+
+
+{% endblock %}

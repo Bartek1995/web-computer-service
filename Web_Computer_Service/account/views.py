@@ -289,4 +289,10 @@ def clean_order_cookies(request):
     
 def order_list(request):
     orders = Order.objects.all()
+    for element in orders:
+        user_object = User.objects.get(id = element.customer_number)
+        element.order_state = set_number_of_order_state_as_string(element.order_state)
+        element.first_name = user_object.first_name
+        element.last_name = user_object.last_name
+    
     return render(request, 'service_functions/order_list.html',{'order' : orders} )
