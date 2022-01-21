@@ -14,6 +14,7 @@ urlpatterns = [
     path('service/order_management/<int:id>', views.order_management, name="order_management"),
     path('service/order_management/<int:id>/modify_description', views.modify_description, name="modify_description"),
     path('service/order_management/<int:id>/modify_order_state', views.modify_order_state, name="modify_order_state"),
+    path('service/order_management/<int:id>/add_device_to_order', views.add_device_to_order, name="add_device_to_order"),
     path('service/order_list', views.order_list, name="order_list"),
     path('service/clean_order_cookies', views.clean_order_cookies, name="clean_order_cookies"),
     path('service/create_employee', views.create_employee, name='create_employee'),
