@@ -6,8 +6,8 @@ from django.views.generic.edit import CreateView, FormView
 from django.views.generic.base import TemplateView
 from django.utils.crypto import get_random_string
 from django.contrib import messages
-from .forms import EmployeeCreationForm, CustomerCreationForm, OrderCreateForm, AddDescriptionToOrder, AddOrderStateToOrder
-from .models import User, Order
+from .forms import AddDeviceToOrder, EmployeeCreationForm, CustomerCreationForm, OrderCreateForm, AddDescriptionToOrder, AddOrderStateToOrder
+from .models import OrderDevice, User, Order
 
 def main(request):
     return render(request, 'index.html')
@@ -140,30 +140,54 @@ def set_number_of_order_state_as_string(order_state_number):
             case 3:
                 order_state = "Ukończono"
         return order_state
-        
+def modify_order_device_list_category_as_string(device_list):
+    for key in device_list:
+        match key.category:
+            case 0:
+                key.category = "Podzespoły komputerowe"
+            case 1:
+                key.category = "Monitory"
+            case 2:
+                key.category = "Klawiatury i myszki"
+            case 3:
+                key.category = "Dyski i nośniki danych"
+            case 4:
+                key.category = "Słuchawki"
+            case 5:
+                key.category = "Drukarki i skanery"
+            case 6:
+                key.category = "Kable i akcesoria"
+            case 7:
+                key.category = "Inne"
+            case 8:
+                key.category = "Nie przypisano"
+    return device_list
+
 def order_management(request, id):
     try:
         del request.session['confirmation']
     except:
         pass
     order = get_object_or_404(Order, pk=id)
+    order_device_list = OrderDevice.objects.all().filter(order_number=order.id)
     user = User.objects.get(pk = order.customer_number)
 
     order_state_as_string = set_number_of_order_state_as_string(order.order_state)
+    order_device_list = modify_order_device_list_category_as_string(order_device_list)
 
+
+    
     context = {
         'order' : order,
         'order_state' : order_state_as_string,
-        'user' : user
+        'user' : user,
+        'order_device_list' : order_device_list,
         }
     return render (request, 'service_functions/order_management.html', context)
 
 
 def modify_description (request, id):
     order = get_object_or_404(Order, pk=id)
-    initial_data= {
-        'description' : order.description
-        }
     if request.method == "POST":
         form = AddDescriptionToOrder(request.POST)
         if form.is_valid():
@@ -209,8 +233,48 @@ def modify_order_state (request, id):
     else:
         return render(request, 'service_functions/modify_order_state.html', context  )
 
+def modify_order_state (request, id):
+    order = get_object_or_404(Order, pk=id)
 
+    if request.method == "POST":
+        form = AddOrderStateToOrder(request.POST)
+        if form.is_valid():
+            order.order_state = form.cleaned_data['order_state']
+            request.session['confirmation'] = "Zaktualizowano dane" 
+            order.save()
+    else:
+        initial_data= {
+        'order_state' : order.order_state
+        }
+        form = AddOrderStateToOrder(initial = initial_data)
+    context = {
+        'form' : form,
+        'order' : order,
+    }
+
+    if 'confirmation' in request.session:
+        context['confirmation'] = request.session['confirmation']
+        return render (request, 'service_functions/modify_order_state.html', context, )
+    else:
+        return render(request, 'service_functions/modify_order_state.html', context  )
+
+def add_device_to_order (request, id):
+    order = get_object_or_404(Order, pk=id)
+    if request.method == "POST":
+        form = AddDeviceToOrder(request.POST)
+        if form.is_valid():
+            form_object = form.save(commit=False)
+            form_object.order_number = id
+            form_object.save()
+    else:
+        form = AddDeviceToOrder()
+    context = {
+        'form' : form,
+        'order' : order
+    }
+    return render(request, 'service_functions/add_device_to_order.html', context)
     
+
 def clean_order_cookies(request):
     try:
         del request.session['error_text']
@@ -222,7 +286,7 @@ def clean_order_cookies(request):
     finally:
         return redirect('Web_Computer_Service:create_order')
         
-# def create_device()
+    
 def order_list(request):
     orders = Order.objects.all()
     return render(request, 'service_functions/order_list.html',{'order' : orders} )
