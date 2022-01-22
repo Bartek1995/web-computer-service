@@ -15,9 +15,11 @@
                 {% render_field form.device_name  class="form-field" placeholder="Nazwa urządzenia" type="char" %}
                 {% render_field form.category  class="form-field" placeholder="Kategoria" type="char" %}
                 <p class="confirmation">{{confirmation}}</p>
+                {% if not confirmation %}
                 <p>Proszę wprowadzić odpowiednia nazwę sprzętu oraz wybrać dla niego kategorie</p>
+                <button type="submit" class="btn-custom">Zatwierdź</button>
+                {% endif %}
             </div>
-        <button type="submit" class="btn-custom">Zatwierdź</button>
     </form>
     <a href="{% url 'Web_Computer_Service:order_management' order.id %}" class="btn-custom">Wróć do edycji zlecenia</a>
     </div>

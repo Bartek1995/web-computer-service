@@ -14,9 +14,11 @@
             <div class="form-area">
                 {% render_field form.order_state class="form-field" type="char" %}
                 <p class="confirmation">{{confirmation}}</p>
+                {% if not confirmation %}
                 <p>Proszę wybrać odpowiedni status zlecenia.</p>
+                <button type="submit" class="btn-custom">Zatwierdź</button>
+                {% endif %}
             </div>
-        <button type="submit" class="btn-custom">Zatwierdź</button>
     </form>
     <a href="{% url 'Web_Computer_Service:order_management' order.id %}" class="btn-custom">Wróć do edycji zlecenia</a>
     </div>

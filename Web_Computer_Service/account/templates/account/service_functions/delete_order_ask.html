@@ -1,0 +1,20 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Potwierdzenie usunięcia konta{% endblock %}
+
+{% block content %}
+
+<div class="content wrapper">
+    
+    <div class="ask">
+        <h3>Czy na pewno chcesz usunąć zlecenie o id = {{order.id}}</h3>
+        <a href="{% url 'Web_Computer_Service:delete_order_confirmation' order.id %}" class="delete-a-btn delete-accept">Potwierdź</a>
+    <a href="{% url 'Web_Computer_Service:delete_order_cancel' order.id %}" class="delete-a-btn delete-cancel">Odrzuć</a>
+    </div>
+    
+    
+</div>
+
+{% endblock %}
