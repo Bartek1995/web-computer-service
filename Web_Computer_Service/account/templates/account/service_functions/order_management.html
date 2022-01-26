@@ -77,7 +77,7 @@
                     {% if order.description %}
                     <li><a href="{% url 'Web_Computer_Service:modify_description' order.id %}" class="btn-custom change">Edytuj opis zlecenia</a></li>
                     {% endif %}
-                    <li><a href="" class="btn-custom delete">Skasuj zlecenie</a></li>
+                    <li><a href="{% url 'Web_Computer_Service:delete_order_ask' order.id %}" class="btn-custom delete">Skasuj zlecenie</a></li>
                 </ul>
             </div>
         </div>
