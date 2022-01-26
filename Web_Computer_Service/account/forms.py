@@ -5,6 +5,10 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import OrderDevice, User, Order
 from django import forms
 
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
 
 class EmployeeCreationForm(UserCreationForm):
     password1 = forms.CharField(
@@ -61,3 +65,6 @@ class AddDeviceToOrder(ModelForm):
     class Meta:
         model = OrderDevice
         fields = ['device_name','category']
+
+class GetOrderInformation(forms.Form):
+    order_number = forms.IntegerField()
