@@ -17,7 +17,7 @@
                     <th>Email</th>
                     
                 </tr>
-                    {% for element in user %}
+                    {% for element in data %}
                     <tr class="table-data">
                         <th>{{element.id}}</th>
                         <th>{{element.first_name}}</th>
@@ -46,7 +46,7 @@
                 <th>Email</th>
                 
             </tr>
-                {% for element in user %}
+                {% for element in data %}
                 <tr class="table-data">
                     <th>{{element.employee_account_number}}</th>
                     <th>{{element.first_name}}</th>
