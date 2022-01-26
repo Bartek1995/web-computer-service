@@ -1,12 +1,10 @@
-from distutils.log import Log
-from re import template
-from telnetlib import LOGOUT
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.views import LoginView,LogoutView
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.utils.crypto import get_random_string
 from django.contrib import messages
+from django.contrib.auth.models import Group
+from .decorators import allowed_users
 from .forms import AddDeviceToOrder, EmployeeCreationForm, GetOrderInformation, LoginForm, CustomerCreationForm, OrderCreateForm, AddDescriptionToOrder, AddOrderStateToOrder
 from .models import OrderDevice, User, Order
 
@@ -23,7 +21,6 @@ def login_page(request):
                 login(request, user)
                 messages.success(request, 'Zalogowano pomyślnie')
                 return redirect('Web_Computer_Service:service')
-
     else:
         form = LoginForm()
 
@@ -36,6 +33,8 @@ def service_main_page(request):
 
 # --------------USER MANAGEMENT--------------
 
+
+@allowed_users(allowed_groups=['admin'])
 def create_employee(request):
     if request.method == "POST":
         form = EmployeeCreationForm(request.POST)
@@ -45,6 +44,8 @@ def create_employee(request):
             random_password = get_random_string(10, "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789")
             new_employee.set_password(random_password)
             new_employee.save()
+            group = Group.objects.get(name='employee')
+            new_employee.groups.add(group)
             contex = {
                 'new_user': new_employee,
                 'password': random_password
@@ -55,6 +56,7 @@ def create_employee(request):
         form = EmployeeCreationForm()
     return render(request, 'service_functions/add_employee.html', {'form': form})
 
+@allowed_users(allowed_groups=['admin'])
 def edit_employee_object(request, id):
     employee = get_object_or_404(User, pk=id)
     employee_password = employee.password
@@ -70,20 +72,26 @@ def edit_employee_object(request, id):
 
     return render(request, 'service_functions/edit_employee_object_instance.html', {'form': form})
 
+@allowed_users(allowed_groups=['admin'])
 def delete_employee_ask(request, id):
     employee = get_object_or_404(User, pk=id)
     return render(request, 'service_functions/delete_employee_ask.html', {'user': employee})
 
+
+@allowed_users(allowed_groups=['admin'])
 def delete_employee_confirmation(request, id):
     employee = get_object_or_404(User, pk=id)
     employee.delete()
     messages.success(request, 'Konto zostało usunięte')
     return redirect('Web_Computer_Service:service')
-    
-def delete_employee_cancel(request):
-    messages.info(request, 'Anulowano usuwanie konta')
-    return redirect('Web_Computer_Service:service')
 
+@allowed_users(allowed_groups=['admin'])
+def delete_employee_cancel(request):
+        messages.info(request, 'Anulowano usuwanie konta')
+        return redirect('Web_Computer_Service:service')
+
+
+@allowed_users(allowed_groups=['employee'])
 def create_customer(request):
     if request.method == "POST":
         form = CustomerCreationForm(request.POST)
@@ -93,6 +101,8 @@ def create_customer(request):
             random_password = get_random_string(10, "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789")
             new_customer.set_password(random_password)
             new_customer.save()
+            group = Group.objects.get(name='customer')
+            new_customer.groups.add(group)
             contex = {
                 'new_user': new_customer,
                 'password': random_password
@@ -103,11 +113,12 @@ def create_customer(request):
         form = CustomerCreationForm()
     return render(request, 'service_functions/add_customer.html', {'form': form})
 
-
+@allowed_users(allowed_groups=['admin'])
 def edit_employee(request):
     data = User.objects.filter(is_employee=True)
     return render(request, 'service_functions/edit_employee.html', {'data': data})
 
+@allowed_users(allowed_groups=['admin', 'employee'])
 def customer_list(request):
     data = User.objects.filter(is_customer=True)
     return render(request, 'service_functions/customer_list.html', {'data': data})
@@ -115,7 +126,7 @@ def customer_list(request):
 
 
 # --------------------------ORDER MANAGEMENT------------------------------
-
+@allowed_users(allowed_groups=['customer'])
 def create_order(request):
     if request.method == "POST":
         form = OrderCreateForm(request.POST)
@@ -145,6 +156,7 @@ def create_order(request):
     else:
         return render (request, 'service_functions/create_order.html', {'form' : form})
 
+@allowed_users(allowed_groups=['customer'])
 def order_management_ask(request):
     return render (request, 'service_functions/order_management_ask.html')
 
@@ -160,6 +172,7 @@ def set_number_of_order_state_as_string(order_state_number):
             case 3:
                 order_state = "Ukończono"
         return order_state
+
 def modify_order_device_list_category_as_string(device_list):
     for key in device_list:
         match key.category:
@@ -183,6 +196,7 @@ def modify_order_device_list_category_as_string(device_list):
                 key.category = "Nie przypisano"
     return device_list
 
+@allowed_users(allowed_groups=['employee'])
 def order_management(request, id):
     try:
         del request.session['confirmation']
@@ -205,7 +219,7 @@ def order_management(request, id):
         }
     return render (request, 'service_functions/order_management.html', context)
 
-
+@allowed_users(allowed_groups=['employee'])
 def modify_description (request, id):
     order = get_object_or_404(Order, pk=id)
     if request.method == "POST":
@@ -227,7 +241,7 @@ def modify_description (request, id):
     else:
         return render(request, 'service_functions/add_description_to_order.html', context  )
 
-
+@allowed_users(allowed_groups=['employee'])
 def modify_order_state (request, id):
     order = get_object_or_404(Order, pk=id)
 
@@ -253,6 +267,7 @@ def modify_order_state (request, id):
     else:
         return render(request, 'service_functions/modify_order_state.html', context  )
 
+@allowed_users(allowed_groups=['employee'])
 def modify_order_state (request, id):
     order = get_object_or_404(Order, pk=id)
 
@@ -278,6 +293,7 @@ def modify_order_state (request, id):
     else:
         return render(request, 'service_functions/modify_order_state.html', context  )
 
+@allowed_users(allowed_groups=['employee'])
 def add_device_to_order (request, id):
     order = get_object_or_404(Order, pk=id)
     if request.method == "POST":
@@ -319,11 +335,13 @@ def order_list(request):
     if len(orders) == 0:
         messages.info(request, 'Brak zleceń w systemie')
         return redirect('Web_Computer_Service:service')
+
     for element in orders:
         user_object = User.objects.get(id = element.customer_number)
         element.order_state = set_number_of_order_state_as_string(element.order_state)
         element.first_name = user_object.first_name
         element.last_name = user_object.last_name
+
     return render(request, 'service_functions/order_list.html',{'order' : orders} )
 
 def order_information(request):
@@ -349,11 +367,12 @@ def order_information(request):
 
         
 
-
+@allowed_users(allowed_groups=['employee'])
 def delete_order_ask(request, id):
     order = get_object_or_404(Order, pk=id)
     return render(request, 'service_functions/delete_order_ask.html', {'order': order})
 
+@allowed_users(allowed_groups=['employee'])
 def delete_order_confirmation(request, id):
     order = get_object_or_404(Order, pk=id)
     order_devices = OrderDevice.objects.all().filter(order_number= order.id)
@@ -362,6 +381,7 @@ def delete_order_confirmation(request, id):
     messages.success(request, 'Zlecenie zostało usunięte')
     return redirect('Web_Computer_Service:service')
     
+@allowed_users(allowed_groups=['employee'])
 def delete_order_cancel(request, id):
     messages.info(request, 'Anulowano usuwanie zlecenia')
     return redirect('Web_Computer_Service:service')
