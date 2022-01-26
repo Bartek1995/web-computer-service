@@ -240,6 +240,7 @@ html, body{
 .form-employee td {
     padding: 20px;
 }
+
 .form-employee .error {
     margin-left: 12px;
     color: red;
@@ -334,7 +335,7 @@ background-color: rgb(255, 0, 0);
 
 .edit-employee {
     height: 80%;
-    width: 800px;
+    width: 80%;
     margin: 100px auto;
     background-color: rgb(255, 255, 255);
     border-radius: 20px;
@@ -536,4 +537,19 @@ background-color: rgb(255, 0, 0);
     padding: 20px;
     text-align: center;
     list-style-type: none;
+}
+
+.order_data{
+    position: absolute;
+    top: 33%;
+    margin-left: 100px;
+
+}
+
+.order_state {
+    margin-bottom: 30px;
+}
+
+.order_state span {
+    font-weight: bold;
 }
