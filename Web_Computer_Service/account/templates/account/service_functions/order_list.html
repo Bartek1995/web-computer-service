@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<h3>Lista zamówień</h3>
+<h3 class="page-function-title">Lista zleceń</h3>
 <div class="content wrapper">
         <div class="employee-object">
             <table class="employee-table">
@@ -26,7 +26,7 @@
                         <th>{{element.created_at}}</th>
                         <th class="flex-btn-containter">
                             <a href="{% url 'Web_Computer_Service:order_management' element.id %}" class="flex-btn edit-btn"><i class="ti ti-edit"></i></a>
-                            <a href="{% url 'Web_Computer_Service:delete_employee_ask' element.id %}" class="flex-btn delete-btn"><i class="ti ti-x"></i></a>
+                            <a href="{% url 'Web_Computer_Service:delete_order_ask' element.id %}" class="flex-btn delete-btn"><i class="ti ti-x"></i></a>
                         </th>
                     </tr>
                     {% endfor %}
