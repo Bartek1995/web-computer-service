@@ -1,0 +1,43 @@
+{% extends "service.html" %}
+{% load widget_tweaks %}
+
+
+{% block title %}Edytuj konto pracownika{% endblock %}
+
+{% block content %}
+
+<h3 class="page-function-title">Informacje o zleceniu</h3>
+<div class="content wrapper">
+        
+    <form method="POST" enctype="multipart/form-data" class="form-employee">
+        {% csrf_token %}
+        {% render_field form.order_number class="form-field" placeholder="Numer zlecenia" type="number" %}
+        <button type="submit" class="btn-custom">Sprawdź informacje</button>
+        <p class="error">{{error}}</p>
+    </form>
+    <div class="order_data">
+        {% if order %}
+        <p class="order_state">Status zlecenia: <span>{{order.order_state}}</span></p>
+        <table class="employee-table">
+            <tr class="table-title">
+                <th>Nazwa urządzenia</th>
+                <th>Kategoria</th>
+            </tr>
+                {% for device in devices %}
+                <tr class="table-data">
+                    <th>{{device.device_name}}</th>
+                    <th>{{device.category}}</th>
+                </tr>
+                {% endfor %}
+
+        </table>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
