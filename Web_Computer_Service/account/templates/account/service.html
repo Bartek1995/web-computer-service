@@ -24,45 +24,57 @@
     <nav class="nav-left">
         <ul>
             <li>
+                {% if not user.is_customer %}
                 <div class="nav-btn btn-user">
                     <p><i class="ti ti-user-circle"></i></p>
                     <p class="nav-text">Zarządzanie użytkownikami</p>
                     <ul class="nav-btn-list">
+                        {% if user.is_superuser%}
                         <li><a href="{% url 'Web_Computer_Service:create_employee' %}" class="">Utwórz konto pracownika</a></li>
-                        <li><a href="{% url 'Web_Computer_Service:edit_employee' %}" class="">Edytuj dane pracownika</a></li>
+                        {% endif %}
+                        {% if not user.is_superuser%}
                         <li><a href="{% url 'Web_Computer_Service:create_customer' %}" class="">Utwórz konto klienta</a></li>
-                        <!-- <li><a href="{% url 'Web_Computer_Service:edit_employee' %}" class="">Edytuj dane klienta</a></li> -->
-
+                        {% endif %}
+                        {% if user.is_superuser%}
+                        <li><a href="{% url 'Web_Computer_Service:edit_employee' %}" class="">Lista pracowników</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'Web_Computer_Service:customer_list' %}" class="">Lista klientów</a></li>
                     </ul>
                 </div>
+                {% endif %}
             </li>
             <li>
+                {% if not user.is_superuser%}
                 <div class="nav-btn btn-order">
                     <p><i class="ti ti-box"></i></p>
-                    <p class="nav-text">Zarządzanie zamówieniami</p>
+                    <p class="nav-text">Zarządzanie zleceniami</p>
                     <ul class="nav-btn-list">
-                        <li><a href="#" class="">Utwórz zamówienie</a></li>
-                        <li><a href="#" class="">Lista zamówień</a></li>
+                        {% if not user.is_customer %}
+                        {% if user.is_employee %}
+                        <li><a href="{% url 'Web_Computer_Service:create_order' %}" class="">Utwórz zlecenie</a></li>
+                        <li><a href="{% url 'Web_Computer_Service:order_list' %}" class="">Lista zleceń</a></li>
+                        {% endif %}
+                        {% endif %}
+                        <li><a href="{% url 'Web_Computer_Service:order_information' %}" class="">Informacje o zleceniu</a></li>
                     </ul>
                 </div>
+                {% endif %}
             </li>
         </ul>
     </nav>
     
     <main>
-        <div class="content">
-            
+            <!-- <p>Wybierz funkcje z panelu nawiagacyjnego</p> -->
             {% block content %}
-            <p>Wybierz funkcje z panelu nawiagacyjnego</p>
             {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
+            {% for message in messages %}
+            <div class="messages-and-errors type-{{message.tags}}">
                     {{ message }}
-                {% endfor %}
+
             </div>
+            {% endfor %}
             {% endif %}
             {% endblock %}
-        </div>
     </main>
 </body>
 </html>
