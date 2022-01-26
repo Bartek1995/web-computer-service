@@ -1,20 +1,36 @@
+from distutils.log import Log
+from re import template
+from telnetlib import LOGOUT
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.edit import CreateView, FormView
-from django.views.generic.base import TemplateView
+from django.contrib.auth.views import LoginView,LogoutView
+from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.utils.crypto import get_random_string
 from django.contrib import messages
-from .forms import AddDeviceToOrder, EmployeeCreationForm, CustomerCreationForm, OrderCreateForm, AddDescriptionToOrder, AddOrderStateToOrder
+from .forms import AddDeviceToOrder, EmployeeCreationForm, GetOrderInformation, LoginForm, CustomerCreationForm, OrderCreateForm, AddDescriptionToOrder, AddOrderStateToOrder
 from .models import OrderDevice, User, Order
 
-def main(request):
-    return render(request, 'index.html')
 
-class LoginPage(LoginView):
-    template_name = "account/index.html"
 
+def login_page(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username = username, password = password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Zalogowano pomyślnie')
+                return redirect('Web_Computer_Service:service')
+
+    else:
+        form = LoginForm()
+
+    return render(request, 'index.html', {'form' : form })
+
+
+@login_required(login_url='/main/')
 def service_main_page(request):
     return render (request, 'service.html')
 
@@ -30,7 +46,7 @@ def create_employee(request):
             new_employee.set_password(random_password)
             new_employee.save()
             contex = {
-                'user': new_employee,
+                'new_user': new_employee,
                 'password': random_password
                 }
             return render(request, 'service_functions/employee_create_complete.html', contex)
@@ -78,7 +94,7 @@ def create_customer(request):
             new_customer.set_password(random_password)
             new_customer.save()
             contex = {
-                'user': new_customer,
+                'new_user': new_customer,
                 'password': random_password
                 }
             return render(request, 'service_functions/customer_create_complete.html', contex)
@@ -90,7 +106,11 @@ def create_customer(request):
 
 def edit_employee(request):
     data = User.objects.filter(is_employee=True)
-    return render(request, 'service_functions/edit_employee.html', {'user': data})
+    return render(request, 'service_functions/edit_employee.html', {'data': data})
+
+def customer_list(request):
+    data = User.objects.filter(is_customer=True)
+    return render(request, 'service_functions/customer_list.html', {'data': data})
 
 
 
@@ -266,13 +286,20 @@ def add_device_to_order (request, id):
             form_object = form.save(commit=False)
             form_object.order_number = id
             form_object.save()
+            request.session['confirmation'] = "Dodano urządzenie do zlecenia"
+
     else:
         form = AddDeviceToOrder()
     context = {
         'form' : form,
-        'order' : order
+        'order' : order,
     }
-    return render(request, 'service_functions/add_device_to_order.html', context)
+    if 'confirmation' in request.session:
+        context['confirmation'] = request.session['confirmation']
+        return render (request, 'service_functions/add_device_to_order.html', context, )
+    else:
+        return render(request, 'service_functions/add_device_to_order.html', context  )
+
     
 
 def clean_order_cookies(request):
@@ -289,10 +316,52 @@ def clean_order_cookies(request):
     
 def order_list(request):
     orders = Order.objects.all()
+    if len(orders) == 0:
+        messages.info(request, 'Brak zleceń w systemie')
+        return redirect('Web_Computer_Service:service')
     for element in orders:
         user_object = User.objects.get(id = element.customer_number)
         element.order_state = set_number_of_order_state_as_string(element.order_state)
         element.first_name = user_object.first_name
         element.last_name = user_object.last_name
-    
     return render(request, 'service_functions/order_list.html',{'order' : orders} )
+
+def order_information(request):
+    if request.method == 'POST':
+        form = GetOrderInformation(request.POST)
+        if form.is_valid():
+            order_number = form.cleaned_data['order_number']
+            try:
+                order = Order.objects.get(id = order_number)
+                devices = OrderDevice.objects.all().filter(order_number = order.id)
+                order.order_state = set_number_of_order_state_as_string(order.order_state)
+                devices = modify_order_device_list_category_as_string(devices)
+            except:
+                error = "Brak takiego zamówienia"
+                return render(request,'service_functions/order_information.html', {'form' : form, 'error' : error})
+            else:
+                return render(request,'service_functions/order_information.html', {'form' : form, 'order': order, 'devices' : devices})
+
+
+    else:
+        form = GetOrderInformation()
+    return render(request,'service_functions/order_information.html', {'form' : form})
+
+        
+
+
+def delete_order_ask(request, id):
+    order = get_object_or_404(Order, pk=id)
+    return render(request, 'service_functions/delete_order_ask.html', {'order': order})
+
+def delete_order_confirmation(request, id):
+    order = get_object_or_404(Order, pk=id)
+    order_devices = OrderDevice.objects.all().filter(order_number= order.id)
+    order.delete()
+    order_devices.delete()
+    messages.success(request, 'Zlecenie zostało usunięte')
+    return redirect('Web_Computer_Service:service')
+    
+def delete_order_cancel(request, id):
+    messages.info(request, 'Anulowano usuwanie zlecenia')
+    return redirect('Web_Computer_Service:service')
