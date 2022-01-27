@@ -126,7 +126,7 @@ def customer_list(request):
 
 
 # --------------------------ORDER MANAGEMENT------------------------------
-@allowed_users(allowed_groups=['customer'])
+@allowed_users(allowed_groups=['employee'])
 def create_order(request):
     if request.method == "POST":
         form = OrderCreateForm(request.POST)
@@ -156,7 +156,7 @@ def create_order(request):
     else:
         return render (request, 'service_functions/create_order.html', {'form' : form})
 
-@allowed_users(allowed_groups=['customer'])
+@allowed_users(allowed_groups=['employee'])
 def order_management_ask(request):
     return render (request, 'service_functions/order_management_ask.html')
 
@@ -204,7 +204,7 @@ def order_management(request, id):
         pass
     order = get_object_or_404(Order, pk=id)
     order_device_list = OrderDevice.objects.all().filter(order_number=order.id)
-    user = User.objects.get(pk = order.customer_number)
+    user_from_order = User.objects.get(pk = order.customer_number)
 
     order_state_as_string = set_number_of_order_state_as_string(order.order_state)
     order_device_list = modify_order_device_list_category_as_string(order_device_list)
@@ -214,7 +214,7 @@ def order_management(request, id):
     context = {
         'order' : order,
         'order_state' : order_state_as_string,
-        'user' : user,
+        'user_from_order' : user_from_order,
         'order_device_list' : order_device_list,
         }
     return render (request, 'service_functions/order_management.html', context)
