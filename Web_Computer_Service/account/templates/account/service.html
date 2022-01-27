@@ -24,6 +24,9 @@
     <nav class="nav-left">
         <ul>
             <li>
+                <div class="nav-btn">
+                    <a href="{% url 'Web_Computer_Service:service' %}" title="Przejdź do strony głownej"<p><i class="ti ti-home-2"></i></p></a>
+            <li>
                 {% if not user.is_customer %}
                 <div class="nav-btn btn-user">
                     <p><i class="ti ti-user-circle"></i></p>
