@@ -1,6 +1,7 @@
 # Web-computer-service
 
-    Small project used to manage users and orders in PC Service. It's a simple CRUD application based on Python (Django).
+    Small project used to manage users and orders in PC Service. 
+    It's a simple CRUD application based on Python (Django).
 
 ## Table of Contents
 
