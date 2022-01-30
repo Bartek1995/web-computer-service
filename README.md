@@ -26,5 +26,9 @@ Frontend:
 
 ```
 1. Clone this repository
-# git clone link 
+# git clone https://github.com/Bartek1995/web-computer-service.git
+
+2. You should create your own Virtual Environment to run my project.
+   But if you skip this part just run command below to install required packages
+# pip install -r requirements.txt
 ```
